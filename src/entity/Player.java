@@ -13,16 +13,24 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler key;
 
+    public final int screenX;
+    public final int screenY;
+
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         key = keyH;
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle(8, 8, 32, 32);
+
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x = 100;
-        y = 100;
+        worldX = gp.tileSize * 3;
+        worldY = gp.tileSize * 5;
         speed = 4;
         brightness = "dark";
     }
@@ -43,22 +51,20 @@ public class Player extends Entity {
     public void update() {
         if (key.upPressed) {
             brightness = "bright";
-            y -= speed;
+            worldY -= speed;
         } else if (key.downPressed) {
             brightness = "bright";
-            y += speed;
+            worldY += speed;
         } else if (key.leftPressed) {
             brightness = "dark";
-            x -= speed;
+            worldX -= speed;
         } else if (key.rightPressed) {
             brightness = "dark";
-            x += speed;
+            worldX += speed;
         }
     }
 
     public void draw(Graphics2D g2d) {
-//        g2d.setColor(Color.WHITE);
-//        g2d.fillRect(x, y, gp.tileSize, gp.tileSize);
 
         BufferedImage image = switch (brightness) {
             case "dark" -> dark;
@@ -66,7 +72,7 @@ public class Player extends Entity {
             default -> null;
         };
 
-        g2d.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2d.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
 
 
