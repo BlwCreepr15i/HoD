@@ -5,6 +5,8 @@ import java.io.IOException;
 
 public class Wormhole extends SuperObject {
 
+    public boolean isActivated;
+
     public Wormhole() {
         name = "wormhole";
         try {
@@ -13,5 +15,6 @@ public class Wormhole extends SuperObject {
             // e.printStackTrace();
         }
         collision = true;
+        isActivated = false;
     }
 }

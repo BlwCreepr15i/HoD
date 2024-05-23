@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.Wormhole;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,7 +16,7 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
-    int hasKey = 0;
+    int hasKey;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -37,6 +38,7 @@ public class Player extends Entity {
         speed = 4;
         brightness = "dark";
         direction = "up";
+        hasKey = 0;
     }
 
     public void getPlayerImage() {
@@ -85,6 +87,7 @@ public class Player extends Entity {
                 case "right": worldX += speed; break;
             }
         }
+
     }
 
     public void pickUpObject(int i) {
@@ -95,16 +98,42 @@ public class Player extends Entity {
 
         switch(objName) {
             case "key":
-                hasKey++;
                 gp.obj[i] = null;
+                hasKey++;
+                gp.ui.showMessage("You got a key!");
                 break;
             case "wormhole":
-                if (hasKey > 0) {
-                    try {
-                        gp.obj[i].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("objects/wormhole_1.png"));
-                    } catch(IOException e) { }
-                    hasKey--;
+
+                if (((Wormhole) gp.obj[i]).isActivated) {
+                    gp.ui.showMessage("\nPress F to interact.");
+
+                    if (kH.fPressed) {
+                        gp.ui.levelFinished = true; // something happens...
+                        ((Wormhole) gp.obj[i]).isActivated = false;
+                    }
+                    break;
+                } else {
+                    if (hasKey <= 0 && gp.level <= 1) {
+                        gp.ui.showMessage("You need a key!");
+                        break;
+                    } else if (hasKey <= 1 && gp.level >= 2) {
+                        gp.ui.showMessage("You need TWO keys!");
+                        break;
+                    }
                 }
+
+                // If the player has enough key(s) AND wormhole is NOT activated:
+                try {
+                    // This changes the color/picture of the wormhole
+                    gp.obj[i].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("objects/wormhole_1.png"));
+                } catch(IOException e) { }
+
+                if (gp.level <= 1) hasKey--;
+                if (gp.level >= 2) hasKey-=2;
+
+                gp.ui.showMessage("You activated the wormhole using a key!");
+                gp.ui.showMessage("\nPress F to interact.");
+                ((Wormhole) gp.obj[i]).isActivated = true;
                 break;
         }
     }

@@ -33,6 +33,12 @@ public class CollisionManager {
                 if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
                     ent.inCollision = true;
                 }
+                if (gp.tileM.tile[tileNum1].hasEffect || gp.tileM.tile[tileNum2].hasEffect) {
+                    gp.player.speed = (int) (Math.random()*-10)+5;
+//                    if (gp.player.speed == 0) gp.player.speed = 4;
+                } else {
+                    gp.player.speed = 4;
+                }
                 break;
             case "down":
                 entBRow = (entBWorldY + ent.speed) / gp.tileSize;
@@ -40,6 +46,12 @@ public class CollisionManager {
                 tileNum2 = gp.tileM.mapTileNum[entRCol][entBRow];
                 if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
                     ent.inCollision = true;
+                }
+                if (gp.tileM.tile[tileNum1].hasEffect || gp.tileM.tile[tileNum2].hasEffect) {
+                    gp.player.speed = (int) (Math.random()*-10)+5;
+//                    if (gp.player.speed == 0) gp.player.speed = 4;
+                } else {
+                    gp.player.speed = 4;
                 }
                 break;
             case "left":
@@ -49,6 +61,12 @@ public class CollisionManager {
                 if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
                     ent.inCollision = true;
                 }
+                if (gp.tileM.tile[tileNum1].hasEffect || gp.tileM.tile[tileNum2].hasEffect) {
+                    gp.player.speed = (int) (Math.random()*-10)+5;
+//                    if (gp.player.speed == 0) gp.player.speed = 4;
+                } else {
+                    gp.player.speed = 4;
+                }
                 break;
             case "right":
                 entRCol = (entRWorldX + ent.speed) / gp.tileSize;
@@ -56,6 +74,12 @@ public class CollisionManager {
                 tileNum2 = gp.tileM.mapTileNum[entRCol][entBRow];
                 if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
                     ent.inCollision = true;
+                }
+                if (gp.tileM.tile[tileNum1].hasEffect || gp.tileM.tile[tileNum2].hasEffect) {
+                    gp.player.speed = (int) (Math.random()*-10)+5;
+//                    if (gp.player.speed == 0) gp.player.speed = 4;
+                } else {
+                    gp.player.speed = 4;
                 }
                 break;
         }

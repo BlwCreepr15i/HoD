@@ -21,7 +21,12 @@ public class TileManager {
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
-        loadMap("maps/world01.txt");
+
+        if (gp.level == 1) {
+            loadMap("maps/world01.txt");
+        } if (gp.level == 2) {
+            loadMap("maps/world02.txt");
+        }
     }
 
     public void getTileImage() {
@@ -31,10 +36,11 @@ public class TileManager {
 
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/stone_bricks.png"));
-            tile[1].collision = true;
+            tile[1].collision = true; //
 
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/purple_trap.png"));
+            tile[2].hasEffect = true;
 
         } catch(IOException e) {
             e.getStackTrace();
