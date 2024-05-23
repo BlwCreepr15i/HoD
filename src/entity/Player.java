@@ -11,18 +11,21 @@ import java.io.IOException;
 public class Player extends Entity {
 
     GamePanel gp;
-    KeyHandler key;
+    KeyHandler kH;
 
     public final int screenX;
     public final int screenY;
+    int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
-        key = keyH;
+        kH = keyH;
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         solidArea = new Rectangle(8, 8, 32, 32);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
 
         setDefaultValues();
         getPlayerImage();
@@ -33,6 +36,7 @@ public class Player extends Entity {
         worldY = gp.tileSize * 5;
         speed = 4;
         brightness = "dark";
+        direction = "up";
     }
 
     public void getPlayerImage() {
@@ -49,18 +53,59 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if (key.upPressed) {
+
+        if (!(kH.upPressed || kH.downPressed || kH.leftPressed || kH.rightPressed)) return;
+
+        if (kH.upPressed) {
             brightness = "bright";
-            worldY -= speed;
-        } else if (key.downPressed) {
+            direction = "up";
+        } else if (kH.downPressed) {
             brightness = "bright";
-            worldY += speed;
-        } else if (key.leftPressed) {
+            direction = "down";
+        } else if (kH.leftPressed) {
             brightness = "dark";
-            worldX -= speed;
-        } else if (key.rightPressed) {
+            direction = "left";
+        } else { // key.rightPressed
             brightness = "dark";
-            worldX += speed;
+            direction = "right";
+        }
+
+        // Check tile collision
+        inCollision = false;
+        gp.cm.checkTile(this);
+
+        int objIndex = gp.cm.checkObject(this, true);
+        pickUpObject(objIndex);
+
+        if (!inCollision) {
+            switch(direction) {
+                case "up": worldY -= speed; break;
+                case "down": worldY += speed; break;
+                case "left": worldX -= speed; break;
+                case "right": worldX += speed; break;
+            }
+        }
+    }
+
+    public void pickUpObject(int i) {
+
+        if (i == 999) return;
+
+        String objName = gp.obj[i].name;
+
+        switch(objName) {
+            case "key":
+                hasKey++;
+                gp.obj[i] = null;
+                break;
+            case "wormhole":
+                if (hasKey > 0) {
+                    try {
+                        gp.obj[i].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("objects/wormhole_1.png"));
+                    } catch(IOException e) { }
+                    hasKey--;
+                }
+                break;
         }
     }
 

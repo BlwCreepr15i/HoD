@@ -10,7 +10,9 @@ public class Entity {
 
     public BufferedImage bright, dark;
     public String brightness;
+    public String direction;
     public Rectangle solidArea;
+    public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean inCollision = false;
 
 
