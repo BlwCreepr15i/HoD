@@ -13,9 +13,9 @@ public class AssetManager {
 
     public void setObject() {
 
-        gp.obj[0] = new Wormhole();
-        gp.obj[1] = new Key();
-        gp.obj[2] = new Key();
+        gp.obj[0] = new Wormhole(gp);
+        gp.obj[1] = new Key(gp);
+        gp.obj[2] = new Key(gp);
 
         if (gp.level <= 1) {
             gp.obj[0].worldX = (2 - 1) * gp.tileSize;

@@ -34,8 +34,7 @@ public class CollisionManager {
                     ent.inCollision = true;
                 }
                 if (gp.tileM.tile[tileNum1].hasEffect || gp.tileM.tile[tileNum2].hasEffect) {
-                    gp.player.speed = (int) (Math.random()*-10)+5;
-//                    if (gp.player.speed == 0) gp.player.speed = 4;
+                    gp.player.speed = (int) (Math.random()*-10)+5; // act as a special slow-down tile
                 } else {
                     gp.player.speed = 4;
                 }
@@ -49,7 +48,6 @@ public class CollisionManager {
                 }
                 if (gp.tileM.tile[tileNum1].hasEffect || gp.tileM.tile[tileNum2].hasEffect) {
                     gp.player.speed = (int) (Math.random()*-10)+5;
-//                    if (gp.player.speed == 0) gp.player.speed = 4;
                 } else {
                     gp.player.speed = 4;
                 }
@@ -63,7 +61,6 @@ public class CollisionManager {
                 }
                 if (gp.tileM.tile[tileNum1].hasEffect || gp.tileM.tile[tileNum2].hasEffect) {
                     gp.player.speed = (int) (Math.random()*-10)+5;
-//                    if (gp.player.speed == 0) gp.player.speed = 4;
                 } else {
                     gp.player.speed = 4;
                 }
@@ -77,7 +74,6 @@ public class CollisionManager {
                 }
                 if (gp.tileM.tile[tileNum1].hasEffect || gp.tileM.tile[tileNum2].hasEffect) {
                     gp.player.speed = (int) (Math.random()*-10)+5;
-//                    if (gp.player.speed == 0) gp.player.speed = 4;
                 } else {
                     gp.player.speed = 4;
                 }

@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 import object.Wormhole;
 
 import javax.imageio.ImageIO;
@@ -43,15 +44,18 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
 
+        bright = setup("player_1.png");
+        dark = setup("player_2.png");
+    }
+
+    public BufferedImage setup(String imageName) {
+        UtilityTool uT = new UtilityTool();
+        BufferedImage image = null;
         try {
-
-            bright = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/player_1.png"));
-            dark = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/player_2.png"));
-
-        } catch (IOException e) {
-            System.out.println("Image Issue!");
-//            e.printStackTrace();
-        }
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/"+imageName));
+            image = uT.scaleImage(image, gp.tileSize, gp.tileSize);
+        } catch (IOException e) {   e.printStackTrace();   }
+        return image;
     }
 
     public void update() {
@@ -105,7 +109,7 @@ public class Player extends Entity {
             case "wormhole":
 
                 if (((Wormhole) gp.obj[i]).isActivated) {
-                    gp.ui.showMessage("\nPress F to interact.");
+                    gp.ui.showMessage("Press F while moving toward wormhole to interact.");
 
                     if (kH.fPressed) {
                         gp.ui.levelFinished = true; // something happens...
@@ -146,7 +150,7 @@ public class Player extends Entity {
             default -> null;
         };
 
-        g2d.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2d.drawImage(image, screenX, screenY, null);
 
 
 

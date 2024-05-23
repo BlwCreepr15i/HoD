@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import environment.EnvironmentManager;
 import object.SuperObject;
 import tile.TileManager;
 
@@ -25,13 +26,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int level = 1;
 
-    Thread gameThread;
+
     KeyHandler key = new KeyHandler();
     TileManager tileM = new TileManager(this);
     public CollisionManager cm = new CollisionManager(this);
     public AssetManager am = new AssetManager(this);
     public UI ui = new UI(this);
+    EnvironmentManager em = new EnvironmentManager(this);
+    Thread gameThread;
 
+    // Entities and Objects
     public Player player = new Player(this, key);
     public SuperObject[] obj = new SuperObject[10];
 
@@ -45,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame() {
         am.setObject();
+        em.setup();
     }
 
     public void startGameThread() {
@@ -85,6 +90,11 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
+        // DEBUG
+        long drawStart = 0;
+        if (key.isDebugging) {
+            drawStart = System.nanoTime();
+        }
 
         tileM.draw(g2d);
         for (SuperObject so : obj) {
@@ -93,7 +103,16 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         player.draw(g2d);
+        em.draw(g2d);
         ui.draw(g2d);
+
+        if (key.isDebugging) {
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            g2d.setColor(Color.WHITE);
+            g2d.drawString("Draw Time:" + passed, 10, 400);
+            System.out.println("Draw time - " + passed);
+        }
 
         g2d.dispose();
     }

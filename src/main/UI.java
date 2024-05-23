@@ -26,7 +26,7 @@ public class UI {
         this.gp = gp;
 
         monospace_30 = new Font("Monospace", Font.PLAIN, 30);
-        Wormhole wh = new Wormhole();
+        Wormhole wh = new Wormhole(gp);
         wormholeImage = wh.image;
         firstCalled = true;
         levelFinished = false;
@@ -81,6 +81,7 @@ public class UI {
             gp.player.setDefaultValues();
             gp.player.worldX = gp.tileSize * 3;
             gp.player.worldY = gp.tileSize * 21;
+
         }
 
 
